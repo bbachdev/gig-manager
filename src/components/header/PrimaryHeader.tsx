@@ -1,7 +1,7 @@
 export default function PrimaryHeader() {
   return (
-    <div>
-      PrimaryHeader
-    </div>
+    <header className={`p-6 shadow-md`}>
+      GigManager
+    </header>
   )
 }

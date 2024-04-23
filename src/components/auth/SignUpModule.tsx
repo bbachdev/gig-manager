@@ -13,6 +13,10 @@ import { signUp } from '@/actions/auth';
 const signUpSchema = z.object({
   email: z.string().email(),
   password: z.string(),
+  confirmPassword: z.string()
+}).refine(data => data.password === data.confirmPassword, {
+  message: "Passwords do not match",
+  path: ["confirmPassword"],
 })
 
 const passwordRequirements = [
@@ -88,6 +92,15 @@ export default function SignUpModule() {
                       ))}
                     </ul>
                   </div>
+                </FormItem>
+              )} />
+              <FormField control={form.control} name="confirmPassword" render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Confirm Password</FormLabel>
+                  <FormControl>
+                    <Input type="password" {...field} />
+                  </FormControl>
+                  <FormMessage/>
                 </FormItem>
               )} />
               <button type="submit" className={`bg-blue-500 hover:bg-blue-500/90 text-white rounded-md p-2 w-full`}>Sign Up</button>

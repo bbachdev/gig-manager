@@ -6,21 +6,21 @@ import { useForm } from "react-hook-form"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
 import { Input } from '../ui/input';
 
-const signInSchema = z.object({
+const signUpSchema = z.object({
   email: z.string().email(),
   password: z.string(),
 })
 
-export default function SignInModule() {
-  const form = useForm<z.infer<typeof signInSchema>>({
-    resolver: zodResolver(signInSchema),
+export default function SignUpModule() {
+  const form = useForm<z.infer<typeof signUpSchema>>({
+    resolver: zodResolver(signUpSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   })
 
-  function onSubmit(values: z.infer<typeof signInSchema>) {
+  function onSubmit(values: z.infer<typeof signUpSchema>) {
     console.log(values)
   }
 
@@ -51,14 +51,14 @@ export default function SignInModule() {
                   <FormMessage/>
                 </FormItem>
               )} />
-              <button type="submit" className={`bg-blue-500 hover:bg-blue-500/90 text-white rounded-md p-2 w-full`}>Sign In</button>
+              <button type="submit" className={`bg-blue-500 hover:bg-blue-500/90 text-white rounded-md p-2 w-full`}>Sign Up</button>
             </form>
           </Form>
         </CardContent>
       </Card>
       <div className={`mt-4 space-x-2`}>
-        <span>{`Don't have an account?`}</span>
-        <a href="/signup" className={`text-blue-500 hover:underline`}>{`Sign Up`}</a>
+        <span>{`Already have an account?`}</span>
+        <a href="/" className={`text-blue-500 hover:underline`}>{`Sign In`}</a>
       </div>
     </>
     

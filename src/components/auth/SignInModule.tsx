@@ -25,9 +25,9 @@ export default function SignInModule() {
   }
 
   return (
-    <Card>
+    <Card className={`w-1/3`}>
       <CardHeader>
-        <h1 className={`text-3xl font-bold`}>Sign In</h1>
+        <h1 className={`text-3xl font-bold text-center`}>Sign In</h1>
       </CardHeader>
       <CardContent>
         <Form {...form}>

@@ -8,6 +8,7 @@ import { Input } from '../ui/input';
 
 import { IoIosCloseCircle } from "react-icons/io";
 import { IoIosCheckmarkCircle } from "react-icons/io";
+import { signUp } from '@/actions/auth';
 
 const signUpSchema = z.object({
   email: z.string().email(),
@@ -46,8 +47,9 @@ export default function SignUpModule() {
     },
   })
 
-  function onSubmit(values: z.infer<typeof signUpSchema>) {
-    console.log(values)
+  async function onSubmit(values: z.infer<typeof signUpSchema>) {
+    const res = await signUp(values.email, values.password)
+    console.log("Response: ", res)
   }
 
   return (

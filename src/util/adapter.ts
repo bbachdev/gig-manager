@@ -1,10 +1,5 @@
 import { DrizzlePostgreSQLAdapter } from "@lucia-auth/adapter-drizzle";
-
-import postgres from "postgres";
 import { userTable, sessionTable } from "@/util/schema";
-import { drizzle } from "drizzle-orm/node-postgres";
+import { initDb } from '@/util/db';
 
-const dbClient = postgres(`${process.env.DATABASE_URL}`);
-const db = drizzle(dbClient);
-
-export const adapter = new DrizzlePostgreSQLAdapter(db, sessionTable, userTable);
+export const adapter = new DrizzlePostgreSQLAdapter(initDb(), sessionTable, userTable);

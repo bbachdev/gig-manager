@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
 import { Input } from '../ui/input';
+import { signIn } from '@/actions/auth';
 
 const signInSchema = z.object({
   email: z.string().email(),
@@ -20,8 +21,11 @@ export default function SignInModule() {
     },
   })
 
-  function onSubmit(values: z.infer<typeof signInSchema>) {
-    console.log(values)
+  async function onSubmit(values: z.infer<typeof signInSchema>) {
+    const signInResult = await signIn(values.email, values.password)
+    if(signInResult.error) {
+      console.log("Error: ", signInResult.error)
+    }
   }
 
   return (

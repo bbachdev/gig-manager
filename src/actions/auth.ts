@@ -39,3 +39,30 @@ export async function signUp(email: string, password: string) : Promise<ActionRe
   cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes)
   return redirect("/");
 }
+
+//TODO: Implement timeout on invalid attempts
+export async function signIn(email: string, password: string) : Promise<ActionResult> {
+  const db = initDb();
+
+  //Grab user (if it exists)
+  const user = await db.select({ id: schema.userTable.id, email: schema.userTable.email, hashed_password: schema.userTable.hashed_password }).from(schema.userTable).where(eq(schema.userTable.email, email)).limit(1)
+  if(user.length === 0) {
+    return {
+      error: "The email or password you entered is incorrect. Please try again."
+    }
+  }
+
+  //Else compare password
+  const hashedPassword = await new Argon2id().verify(user[0].hashed_password, password);
+  if(!hashedPassword) {
+    return {
+      error: "The email or password you entered is incorrect. Please try again."
+    }
+  }
+
+  //Create session
+  const session = await lucia.createSession(user[0].id, {});
+  const sessionCookie = lucia.createSessionCookie(session.id);
+  cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes)
+  return redirect("/");
+}
